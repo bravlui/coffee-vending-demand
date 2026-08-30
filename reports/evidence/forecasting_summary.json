@@ -1,0 +1,241 @@
+{
+  "shipped_model": "seasonal_naive",
+  "top_model_by_cycle_wape": "ensemble",
+  "backtest_summary_daily": {
+    "ensemble": {
+      "wape": 0.5401422270675628,
+      "mae": 0.9790077865599575,
+      "rmse": 1.4018452093226421,
+      "bias": -0.061377395259971546,
+      "smape": 0.998871467701041
+    },
+    "ml_lightgbm": {
+      "wape": 0.5551859758618156,
+      "mae": 1.0062745812495408,
+      "rmse": 1.4188905678038615,
+      "bias": -0.06025479051994308,
+      "smape": 0.9769129547784056
+    },
+    "seasonal_naive": {
+      "wape": 0.6059113300492611,
+      "mae": 1.0982142857142858,
+      "rmse": 1.6118977280566797,
+      "bias": -0.0625,
+      "smape": 0.9459043939862355
+    },
+    "tsb": {
+      "wape": 0.6196218830170904,
+      "mae": 1.1230646629684764,
+      "rmse": 1.5846873303273132,
+      "bias": -0.13665459188274312,
+      "smape": 0.9849721375336432
+    },
+    "croston": {
+      "wape": 0.6359632800923184,
+      "mae": 1.1526834451673271,
+      "rmse": 1.5720093634311187,
+      "bias": -0.07176066984199772,
+      "smape": 0.9663401208566681
+    },
+    "moving_average_28": {
+      "wape": 0.6372273047149895,
+      "mae": 1.1549744897959184,
+      "rmse": 1.5850810005881895,
+      "bias": 0.03380102040816324,
+      "smape": 0.9771629800919043
+    }
+  },
+  "backtest_summary_cycle": {
+    "ml_lightgbm": {
+      "wape": 0.16790563672988973,
+      "mae": 2.130302766010476,
+      "rmse": 2.7724463659888356,
+      "bias": -0.4217835336396014,
+      "smape": 0.4044166632749695
+    },
+    "croston": {
+      "wape": 0.17255291379592674,
+      "mae": 2.1892650937858207,
+      "rmse": 2.95202616808192,
+      "bias": -0.5023246888939843,
+      "smape": 0.3159279371053947
+    },
+    "ensemble": {
+      "wape": 0.17788078956035544,
+      "mae": 2.2568625175470096,
+      "rmse": 2.7602917412538126,
+      "bias": -0.4296417668198007,
+      "smape": 0.43123888573603664
+    },
+    "tsb": {
+      "wape": 0.18323395518207233,
+      "mae": 2.3247808063725426,
+      "rmse": 3.2673326751488676,
+      "bias": -0.9565821431792023,
+      "smape": 0.4077358931835788
+    },
+    "moving_average_28": {
+      "wape": 0.2019704433497537,
+      "mae": 2.5625,
+      "rmse": 3.2419444908314907,
+      "bias": 0.23660714285714257,
+      "smape": 0.4325215132943918
+    },
+    "seasonal_naive": {
+      "wape": 0.2019704433497537,
+      "mae": 2.5625,
+      "rmse": 3.17214438511238,
+      "bias": -0.4375,
+      "smape": 0.37486590379083545
+    }
+  },
+  "development_summary_cycle": {
+    "ensemble": {
+      "wape": 0.323909189241566,
+      "mae": 3.9341470276631867,
+      "rmse": 5.7624748295535495,
+      "bias": -1.688505455566833,
+      "smape": 0.4939927848887516
+    },
+    "seasonal_naive": {
+      "wape": 0.3241852487135506,
+      "mae": 3.9375,
+      "rmse": 5.618051263561058,
+      "bias": -1.3541666666666667,
+      "smape": 0.5088605435764237
+    },
+    "tsb": {
+      "wape": 0.34158223985989683,
+      "mae": 4.1488009549649965,
+      "rmse": 6.2401560632374125,
+      "bias": -3.0941791023212346,
+      "smape": 0.5223556747627819
+    },
+    "croston": {
+      "wape": 0.3441342060415336,
+      "mae": 4.179796710879461,
+      "rmse": 6.271707463119897,
+      "bias": -2.9146609202744536,
+      "smape": 0.5140846090067885
+    },
+    "ml_lightgbm": {
+      "wape": 0.34809013991354293,
+      "mae": 4.227844824366573,
+      "rmse": 6.311033497798727,
+      "bias": -2.022844244467,
+      "smape": 0.5025103690186703
+    },
+    "moving_average_28": {
+      "wape": 0.3904067630482725,
+      "mae": 4.741815476190476,
+      "rmse": 7.152112679048725,
+      "bias": -3.4769345238095233,
+      "smape": 0.5676181295360164
+    }
+  },
+  "n_folds": 2,
+  "development_folds": 6,
+  "horizon_days": 7,
+  "forecast_period": [
+    "2025-03-24",
+    "2025-03-30"
+  ],
+  "total_forecast_units": 109.0,
+  "total_order_qty": 192.0,
+  "lightgbm_best_params": {
+    "objective": "poisson",
+    "num_leaves": 31,
+    "learning_rate": 0.05,
+    "min_child_samples": 20
+  },
+  "promotion_decision": {
+    "candidate": "ensemble",
+    "passed": false,
+    "wape_gain": 0.0002760594719846132,
+    "wape_gate": false,
+    "fold_win_rate": 0.5,
+    "stability_gate": true,
+    "abs_bias_increase": 0.33433878890016633,
+    "bias_gate": false,
+    "holdout_gate": true
+  },
+  "inactive_dates_sensitivity_count": 7,
+  "downtime_sensitivity": {
+    "ml_lightgbm": {
+      "zero_assumption_wape": 0.16790563672988973,
+      "unknown_day_wape": 0.20455700980346167,
+      "wape_delta": 0.03665137307357194
+    },
+    "croston": {
+      "zero_assumption_wape": 0.17255291379592674,
+      "unknown_day_wape": 0.1748656668051005,
+      "wape_delta": 0.002312753009173746
+    },
+    "ensemble": {
+      "zero_assumption_wape": 0.17788078956035544,
+      "unknown_day_wape": 0.19833761820222348,
+      "wape_delta": 0.02045682864186804
+    },
+    "tsb": {
+      "zero_assumption_wape": 0.18323395518207233,
+      "unknown_day_wape": 0.18254799448963865,
+      "wape_delta": -0.0006859606924336792
+    },
+    "moving_average_28": {
+      "zero_assumption_wape": 0.2019704433497537,
+      "unknown_day_wape": 0.2019704433497537,
+      "wape_delta": 0.0
+    },
+    "seasonal_naive": {
+      "zero_assumption_wape": 0.2019704433497537,
+      "unknown_day_wape": 0.2019704433497537,
+      "wape_delta": 0.0
+    }
+  },
+  "evaluation_scope": "final_holdout",
+  "evaluation_folds": 2,
+  "policy_backtest": [
+    {
+      "method": "empirical",
+      "service_level_nominal": 0.9,
+      "empirical_coverage": 0.8214285714285714,
+      "shortage_units": 43.699999999999996,
+      "excess_units": 356.0
+    },
+    {
+      "method": "empirical",
+      "service_level_nominal": 0.95,
+      "empirical_coverage": 0.8392857142857143,
+      "shortage_units": 41.75,
+      "excess_units": 392.4
+    },
+    {
+      "method": "empirical",
+      "service_level_nominal": 0.99,
+      "empirical_coverage": 0.8392857142857143,
+      "shortage_units": 40.35,
+      "excess_units": 421.67999999999995
+    },
+    {
+      "method": "normal",
+      "service_level_nominal": 0.9,
+      "empirical_coverage": 0.8214285714285714,
+      "shortage_units": 41.96655899954504,
+      "excess_units": 316.21847530464555
+    },
+    {
+      "method": "normal",
+      "service_level_nominal": 0.95,
+      "empirical_coverage": 0.875,
+      "shortage_units": 32.4879704826791,
+      "excess_units": 397.8103411982141
+    },
+    {
+      "method": "normal",
+      "service_level_nominal": 0.99,
+      "empirical_coverage": 0.9464285714285714,
+      "shortage_units": 23.691306312621567,
+      "excess_units": 559.846703739279
+    }
+  ]
+}

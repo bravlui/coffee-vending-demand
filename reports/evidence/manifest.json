@@ -1,0 +1,16 @@
+{
+  "generated_at_utc": "2026-08-30T01:04:00.786139+00:00",
+  "package_version": "0.1.0",
+  "config_sha256": "1a776b466174c4115419c2adafa5701dc74cb05da546c985b99fc197d67cd73d",
+  "raw_data_sha256": "2a600445a1836da436a3e890e1e1cce0ecf279d369d3a9e280db3ea0d06b594e",
+  "evidence_files": [
+    "forecasting_summary.json",
+    "development_summary_cycle.csv",
+    "backtest_summary_cycle.csv",
+    "lightgbm_tuning_results.csv",
+    "backtest_stability.csv",
+    "policy_backtest.csv",
+    "downtime_sensitivity.csv",
+    "segmentation_summary.json"
+  ]
+}
