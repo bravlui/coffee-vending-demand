@@ -1,7 +1,6 @@
 # Guia de leitura do código
 
-Este documento liga cada decisão apresentada no case ao arquivo que a implementa.
-Ele é o roteiro recomendado para explicar o projeto em uma entrevista técnica.
+Este documento liga cada decisão de projeto ao arquivo que a implementa.
 
 ## Fluxo completo
 
@@ -88,16 +87,16 @@ isso o resultado atual é um nível recomendado, não impacto operacional medido
 `pipelines/forecasting.py` conecta features, tuning, backtest, seleção, treino
 final, previsão e política de reposição. `cli.py` expõe esse fluxo pelos comandos
 `prepare`, `forecast` e `run-all`. `reporting/` grava gráficos e evidências que
-permitem reproduzir os números da apresentação.
+permitem reproduzir os números dos relatórios em `docs/`.
 
-## Como explicar uma função
+## Lendo uma função
 
-Para cada função, siga quatro perguntas:
+Para cada função, quatro perguntas orientam a leitura:
 
 1. Qual dado ela recebe?
 2. Qual transformação executa?
 3. Qual hipótese ou proteção de qualidade aplica?
 4. Qual objeto devolve para a próxima etapa?
 
-Esse padrão explica o código linha a linha quando necessário, sem adicionar
-comentários que apenas repetem a sintaxe do Python.
+Esse padrão cobre o código sem adicionar comentários que apenas repetem a
+sintaxe do Python.
