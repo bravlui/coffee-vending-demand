@@ -74,18 +74,6 @@ def forecast_vs_actual(preds: pd.DataFrame, model_col: str, out_dir: Path) -> Pa
     return _save(fig, out_dir, "backtest_forecast_vs_actual")
 
 
-def segment_scatter(customers: pd.DataFrame, out_dir: Path) -> Path:
-    fig, ax = plt.subplots(figsize=(7, 5))
-    for seg, g in customers.groupby("segment"):
-        ax.scatter(g["recency_days"], g["frequency"], s=18, alpha=0.7, label=seg)
-    ax.set_xlabel("recency (days)")
-    ax.set_ylabel("frequency (purchases)")
-    ax.set_yscale("log")
-    ax.set_title("Customer segments: recency vs frequency")
-    ax.legend()
-    return _save(fig, out_dir, "segments_recency_frequency")
-
-
 def feature_importance(importance: pd.Series, out_dir: Path) -> Path:
     top = importance.head(15).sort_values()
     fig, ax = plt.subplots(figsize=(8, 5))

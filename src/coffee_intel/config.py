@@ -104,34 +104,12 @@ class ReplenishmentCfg(BaseModel):
     safety_stock_method: str = Field(default="empirical", pattern="^(normal|empirical)$")
 
 
-class KMeansCfg(BaseModel):
-    k_candidates: list[int] = Field(default_factory=lambda: [3, 4, 5, 6])
-    random_state: int = 42
-    n_init: int = 10
-
-
-class SegmentationCfg(BaseModel):
-    snapshot_date: str | None = None
-    min_transactions: int = 1
-    features: list[str] = Field(
-        default_factory=lambda: [
-            "recency_days",
-            "frequency",
-            "monetary",
-            "tenure_days",
-            "avg_ticket",
-        ]
-    )
-    kmeans: KMeansCfg = Field(default_factory=KMeansCfg)
-
-
 class Config(BaseModel):
     paths: Paths
     data: DataCfg
     cleaning: CleaningCfg = Field(default_factory=CleaningCfg)
     forecasting: ForecastingCfg = Field(default_factory=ForecastingCfg)
     replenishment: ReplenishmentCfg = Field(default_factory=ReplenishmentCfg)
-    segmentation: SegmentationCfg = Field(default_factory=SegmentationCfg)
     random_seed: int = 42
 
     @classmethod

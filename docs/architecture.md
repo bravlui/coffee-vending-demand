@@ -11,7 +11,6 @@ This document describes how `coffee-intel` would run as a data product for a
 |---|---|---|---|
 | Field ops / route planner | Per-machine, per-product order-up-to quantities | Daily (or per route visit) | Table in an ops app / BI dashboard, or API |
 | Supply chain | Aggregated demand forecast per DC / region | Weekly | Data warehouse table |
-| Commercial / CRM | Customer segment + churn risk | Weekly | Reverse-ETL into CRM / marketing tool |
 | DS / MLOps | Backtest metrics, drift reports, data-quality reports | Every run | MLflow + monitoring dashboards |
 
 ---
@@ -41,7 +40,6 @@ flowchart LR
     subgraph Serve
         WH[(Warehouse<br/>BigQuery / Snowflake)]
         API[Forecast API<br/>FastAPI - optional low-latency]
-        RETL[Reverse ETL<br/>segments -> CRM]
         BI[Ops dashboard / app]
     end
     subgraph Ops
@@ -54,7 +52,6 @@ flowchart LR
     FS --> TR --> REG --> BATCH --> POL --> WH
     POL --> API
     WH --> BI
-    DBT --> RETL
     ORCH -.drives.-> DBT & TR & BATCH
     BATCH --> MON --> AL
     DQ --> MON
@@ -120,9 +117,6 @@ flowchart LR
   always shadow-evaluated against the incumbent before promotion.
 - **Rollback**: previous model version stays in the registry; policy layer is
   independent so it can fall back to seasonal-naive instantly.
-- **Privacy / LGPD-GDPR**: `card` is already a pseudonymised id. Keep customer
-  features aggregated, set a retention window, document lawful basis for the
-  loyalty use case, support deletion requests via the customer key.
 
 ---
 
@@ -149,8 +143,6 @@ flowchart LR
   directly instead of a normal approximation.
 - **Price/assortment optimisation**: once repricing is deliberate and logged, an
   uplift/elasticity model on top of the demand model.
-- **Customer layer**: move from descriptive RFM to a repeat-purchase / churn
-  model and next-best-product recommendations for the loyalty program.
 - **Joint route + inventory optimisation**: turn per-machine order quantities
   into an optimised refill schedule for the field team.
 

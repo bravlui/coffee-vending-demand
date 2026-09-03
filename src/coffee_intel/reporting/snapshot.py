@@ -19,7 +19,6 @@ EVIDENCE_FILES = [
     "backtest_stability.csv",
     "policy_backtest.csv",
     "downtime_sensitivity.csv",
-    "segmentation_summary.json",
 ]
 
 

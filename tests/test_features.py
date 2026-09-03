@@ -15,7 +15,6 @@ from coffee_intel.features.forecasting import (
     mask_machine_inactive_days,
     split_future,
 )
-from coffee_intel.features.segmentation import build_customer_features
 
 
 def _panel(config):
@@ -89,13 +88,3 @@ def test_future_rows_are_horizon_days_and_have_features(config):
     assert (per_product_days == config.forecasting.horizon_days).all()
     assert future["date"].min() > panel["date"].max()
     assert future[feature_columns(config)].notna().all().all()
-
-
-def test_customer_features_only_card_transactions(config):
-    tx = clean_transactions(load_transactions(config), config)
-    feats = build_customer_features(tx, config)
-    assert feats["frequency"].min() >= config.segmentation.min_transactions
-    assert (feats["recency_days"] >= 0).all()
-    assert (feats["monetary"] > 0).all()
-    # monetary total cannot exceed card revenue
-    assert feats["monetary"].sum() <= tx.loc[tx["customer_id"].notna(), "price"].sum() + 1e-6

@@ -1,15 +1,13 @@
-"""Tests for baselines, the forecaster, backtest selection and segmentation."""
+"""Tests for baselines, the forecaster and backtest selection."""
 
 from __future__ import annotations
 
-import numpy as np
 import pandas as pd
 import pytest
 
 from coffee_intel.data.clean import clean_transactions
 from coffee_intel.data.ingest import load_transactions
 from coffee_intel.features.forecasting import add_features, build_daily_panel
-from coffee_intel.features.segmentation import build_customer_features
 from coffee_intel.models.backtest import (
     run_backtest,
     select_model,
@@ -18,7 +16,6 @@ from coffee_intel.models.backtest import (
 )
 from coffee_intel.models.baselines import BASELINES, _croston_level, _tsb_level
 from coffee_intel.models.forecaster import train_forecaster
-from coffee_intel.models.segmentation import segment_customers
 from coffee_intel.models.tuning import candidate_params, temporal_split
 
 
@@ -95,13 +92,3 @@ def test_summarise_cycle_aggregates(config, feat):
     cyc = summarise_backtest_cycle(preds, ["ml_lightgbm", "seasonal_naive"])
     assert cyc["wape"].is_monotonic_increasing  # sorted best-first
     assert (cyc["wape"] >= 0).all()
-
-
-def test_segmentation_assigns_every_customer(config):
-    tx = clean_transactions(load_transactions(config), config)
-    feats = build_customer_features(tx, config)
-    result = segment_customers(feats, config)
-    assert result.customers["segment"].notna().all()
-    assert result.k in config.segmentation.kmeans.k_candidates
-    assert np.isclose(result.profile["revenue_share"].sum(), 1.0, atol=1e-6)
-    assert 0 <= result.stability_ari <= 1

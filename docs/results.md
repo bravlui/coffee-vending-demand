@@ -100,15 +100,6 @@ The next-cycle output assumes `on_hand=0`; `order_qty` is therefore equal to the
 order-up-to requirement, not a literal purchase order. Current inventory must
 be integrated before operational use.
 
-## Customer segmentation
-
-K-means selected `k=5` with silhouette 0.351 and mean stability ARI 0.9998
-across five additional seeds. There are 1,316 identified customers;
-approximately 6% in `High value` account for 41% of card revenue. Neutral names
-(`High value`, `Repeat engaged`, `Recent low-frequency`, `Inactive`, `Low
-engagement`) describe observed profiles without claiming churn or causal
-response.
-
 ## Limitations
 
 - One machine and about 13 months of data.
@@ -117,4 +108,3 @@ response.
   stockout; the sensitivity analysis shows the selected baseline is unchanged.
 - No inventory, waste or stockout ground truth.
 - Repricing is confounded with time; price effects are not causal.
-- Cash sales have no customer id and are excluded from segmentation.

@@ -9,5 +9,4 @@ decision per file, numbered.
 | [0002](0002-forecasting-approach.md) | Forecasting approach: pooled LightGBM + baselines, direct multi-horizon |
 | [0003](0003-parsimony-model-selection.md) | Parsimony rule for choosing the model to ship |
 | [0004](0004-replenishment-policy.md) | Base-stock replenishment policy with backtest-derived safety stock |
-| [0005](0005-segmentation.md) | RFM + K-means customer segmentation as a descriptive layer |
 | [0006](0006-temporal-tuning-and-holdout.md) | Temporal tuning and final holdout |

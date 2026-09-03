@@ -10,7 +10,6 @@ from typer.testing import CliRunner
 from coffee_intel.cli import app
 from coffee_intel.pipelines.forecasting import run_forecasting
 from coffee_intel.pipelines.prepare import run_prepare
-from coffee_intel.pipelines.segmentation import run_segmentation
 
 runner = CliRunner()
 
@@ -38,13 +37,6 @@ def test_forecasting_pipeline_produces_recommendation(config):
     assert rec.exists()
     summary = json.loads((Path(config.paths.metrics_dir) / "forecasting_summary.json").read_text())
     assert summary["total_order_qty"] >= 0
-
-
-def test_segmentation_pipeline_writes_segments(config):
-    run_prepare(config)
-    res = run_segmentation(config, make_plots=False)
-    assert res["n_customers"] > 0
-    assert (Path(config.paths.processed_dir) / "customer_segments.csv").exists()
 
 
 def test_cli_run_all(config, tmp_path):

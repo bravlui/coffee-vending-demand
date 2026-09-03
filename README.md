@@ -1,6 +1,6 @@
 # coffee-vending-demand
 
-Previsão de demanda e segmentação de clientes para operações de máquinas de café.
+Previsão de demanda e política de reposição para operações de máquinas de café.
 
 Projeto de ciência de dados ponta a ponta e reprodutível sobre o dataset público
 **[Coffee Sales](https://www.kaggle.com/datasets/ihelon/coffee-sales)** — o log de
@@ -13,9 +13,7 @@ transações de uma única máquina de café (mar/2024 – mar/2025).
 Um operador de máquinas de café decide **quanto de cada produto abastecer e
 quando**. Hoje a decisão é manual e reativa:
 
-- **Ruptura de estoque** → venda perdida e um cliente que vai embora (78% da
-  receita desta máquina vem de clientes *recorrentes*, então uma experiência
-  ruim é cara).
+- **Ruptura de estoque** → item indisponível e possível venda perdida.
 - **Excesso de estoque** → capital parado e desperdício de um insumo perecível.
 
 O pipeline produz, a cada ciclo de reposição:
@@ -23,9 +21,6 @@ O pipeline produz, a cada ciclo de reposição:
 1. uma **previsão de demanda por produto** para os próximos 7 dias, e
 2. uma **recomendação de "abastecer até" (order-up-to)** que atinge um nível de
    serviço-alvo, calibrada pelo erro real observado nos backtests.
-
-Uma segunda saída, complementar, segmenta a **base de clientes** (RFM + K-means)
-para que a área comercial veja quem gera receita e quem está se afastando.
 
 Os dados cobrem uma máquina; o desenho generaliza para uma frota (ver
 [docs/architecture.md](docs/architecture.md)).
@@ -53,27 +48,42 @@ As decisões de projeto e os trade-offs estão registrados como ADRs em
 
 ## 3. Estrutura do repositório
 
-```
-config/config.yaml            Todos os parâmetros do pipeline (fonte única de verdade)
-src/coffee_intel/
-  config.py                   Carregador de config tipado (pydantic)
-  data/                       ingestão · validação (data quality) · limpeza
-  features/                   painel e features de previsão · features RFM de cliente
-  models/                     baselines · forecaster LightGBM · backtest · métricas · segmentação
-  policy/replenishment.py     previsão -> recomendação de "abastecer até"
-  pipelines/                  prepare · forecasting · segmentation (orquestração)
-  reporting/                  figuras matplotlib · snapshot de evidências
-  cli.py                      comando `coffee-intel`
-tests/                        testes unitários pytest (dados sintéticos, dispensam o arquivo bruto)
-docs/                         arquitetura + Architecture Decision Records + resultados
-notebooks/01_eda.py           análise exploratória (script no formato `# %%`)
-reports/                      figures/ e metrics/ (gerados) · evidence/ (snapshot versionado)
-```
+| Caminho | Onde procurar / responsabilidade |
+|---|---|
+| [`config/config.yaml`](config/config.yaml) | horizonte, janelas, features, LightGBM, regra de seleção e nível de serviço |
+| [`src/coffee_intel/cli.py`](src/coffee_intel/cli.py) | comandos `prepare`, `forecast` e `run-all` |
+| [`src/coffee_intel/data/ingest.py`](src/coffee_intel/data/ingest.py) | leitura do CSV e padronização dos nomes das colunas |
+| [`src/coffee_intel/data/validate.py`](src/coffee_intel/data/validate.py) | nove verificações de qualidade |
+| [`src/coffee_intel/data/clean.py`](src/coffee_intel/data/clean.py) | filtros, normalizações e remoção de duplicatas |
+| [`src/coffee_intel/features/forecasting.py`](src/coffee_intel/features/forecasting.py) | painel diário, variável resposta `units` e 19 variáveis explicativas |
+| [`src/coffee_intel/models/baselines.py`](src/coffee_intel/models/baselines.py) | seasonal-naive, média móvel, Croston e TSB |
+| [`src/coffee_intel/models/forecaster.py`](src/coffee_intel/models/forecaster.py) | treinamento e predição do LightGBM |
+| [`src/coffee_intel/models/tuning.py`](src/coffee_intel/models/tuning.py) | ajuste de hiperparâmetros apenas nas janelas de desenvolvimento |
+| [`src/coffee_intel/models/backtest.py`](src/coffee_intel/models/backtest.py) | origem móvel, cálculo por janela e regra de promoção |
+| [`src/coffee_intel/models/metrics.py`](src/coffee_intel/models/metrics.py) | WAPE, MAE, RMSE e viés |
+| [`src/coffee_intel/policy/replenishment.py`](src/coffee_intel/policy/replenishment.py) | previsão → estoque de segurança → nível “abastecer até” |
+| [`src/coffee_intel/pipelines/prepare.py`](src/coffee_intel/pipelines/prepare.py) | orquestra ingestão, validação e limpeza |
+| [`src/coffee_intel/pipelines/forecasting.py`](src/coffee_intel/pipelines/forecasting.py) | orquestra o fluxo completo de previsão e reposição |
+| [`src/coffee_intel/reporting/`](src/coffee_intel/reporting/) | gráficos e snapshot versionável das evidências |
+| [`tests/`](tests/) | testes organizados pelas mesmas responsabilidades do código |
+| [`docs/code-guide.md`](docs/code-guide.md) | leitura guiada do código, etapa por etapa |
+| [`presentation/coffee-vending-demand.pptx`](presentation/coffee-vending-demand.pptx) | apresentação executiva focada em previsão e reposição |
+
+### Ordem recomendada para ler o código
+
+`cli.py` → `pipelines/prepare.py` → `features/forecasting.py` →
+`models/backtest.py` → `models/forecaster.py` →
+`policy/replenishment.py` → `pipelines/forecasting.py`.
+
+Os comentários explicam decisões que não são óbvias — especialmente ordem temporal,
+prevenção de vazamento e regra de seleção. O guia de código explica cada etapa sem
+repetir em comentários aquilo que a própria instrução Python já expressa.
 
 ### Documentação
 
 - [docs/results.md](docs/results.md) — resultados e números consolidados
 - [docs/architecture.md](docs/architecture.md) — arquitetura de produção + diagrama
+- [docs/code-guide.md](docs/code-guide.md) — mapa do fluxo e explicação dos módulos
 - [docs/decisions/](docs/decisions/) — Architecture Decision Records (o "porquê")
 
 Gerar PDF de qualquer documento (requer `pip install -e ".[docs]"` e Chrome/Edge):
@@ -122,8 +132,7 @@ kaggle datasets download -d ihelon/coffee-sales -p data/raw --unzip
 ```bash
 coffee-intel prepare      # bruto -> data/processed/transactions.parquet + relatório de data quality
 coffee-intel forecast     # backtest, treino, previsão, plano de reposição
-coffee-intel segment      # segmentação de clientes
-coffee-intel run-all      # tudo acima
+coffee-intel run-all      # prepare + forecast + snapshot de evidências
 
 coffee-intel forecast --no-plots           # pular as figuras
 coffee-intel forecast -c config/config.yaml
@@ -135,7 +144,6 @@ Saídas:
 |---|---|
 | `data/processed/forecast_next_cycle.csv` | previsão por produto e por dia para os próximos 7 dias |
 | `data/processed/replenishment_recommendation.csv` | nível "abastecer até" e quantidade sugerida de pedido |
-| `data/processed/customer_segments.csv` | uma linha por cliente com seu segmento |
 | `reports/metrics/backtest_summary_cycle.csv` | WAPE / MAE / RMSE / viés por modelo (nível ciclo) |
 | `reports/metrics/*.json` | resumos das execuções em formato legível por máquina |
 | `reports/figures/*.png` | EDA e diagnósticos de modelo |
@@ -166,15 +174,13 @@ Resumo após o ajuste temporal de hiperparâmetros: o LightGBM ajustado vence o
 holdout intocado de duas janelas (WAPE de ciclo 0,168 vs. 0,202), mas nas seis
 janelas de desenvolvimento seu WAPE é 0,348 contra 0,324 do seasonal-naive. O
 pipeline, portanto, ainda entrega o modelo simples, pela regra explícita de
-parcimônia. A visão de cliente mostra que **6% dos clientes identificados geram
-41% da receita no cartão**.
+parcimônia.
 
 ## 8. Limitações
 
 - Uma máquina, ~13 meses — pouco para ML; os resultados são direcionais.
 - Reajustes de preço são sistêmicos e confundidos com o tempo, então efeitos de
   preço não são estimativas causais.
-- Vendas em dinheiro (~2,5%) não têm id de cliente e ficam fora da segmentação.
 - Sem ground truth real de estoque/ruptura — o ganho de nível de serviço é
   modelado, não medido.
 

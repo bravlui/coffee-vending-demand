@@ -11,8 +11,8 @@ demand forecasting, price elasticity, customer churn, anomaly detection.
 ## Decision
 Frame the problem as **inventory replenishment decision support**: forecast
 per-product demand for the next cycle and convert it into an order-up-to
-quantity at a target service level. Add **customer segmentation** as a
-complementary, descriptive layer.
+quantity at a target service level. Keep the scope limited to this operational
+decision so the evidence, implementation and presentation tell one story.
 
 ## Rationale
 - It maps to a real, recurring operational decision with a clear cost of being
@@ -23,15 +23,11 @@ complementary, descriptive layer.
   lag features — so the solution stays simple.
 - Price elasticity was rejected: repricing events in the data are system-wide
   and fully confounded with time, so no credible causal estimate is possible.
-- A pure churn model was rejected as the primary problem: only ~545 customers
-  have 2+ purchases on a single machine, and "churn" is ill-defined there. RFM
-  segmentation still extracts the useful signal (who drives revenue) without
-  overclaiming.
+- Customer segmentation was excluded from this iteration because it addresses a
+  different stakeholder and would dilute the replenishment decision being validated.
 
 ## Consequences
 - Success is measured with WAPE at the **cycle** level (decision-relevant), not
   only daily error.
 - The safety-stock layer needs a forecast-error estimate, which the backtest
   provides.
-- Segmentation is presented as an analytical view, not a production model, in
-  this iteration.

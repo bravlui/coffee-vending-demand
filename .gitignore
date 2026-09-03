@@ -35,9 +35,10 @@ mlruns/
 # Rendered docs (generated from the .md sources)
 docs/*.pdf
 
-# Local-only deliverables (kept out of the code repository)
+# Local-only notes and generated presentation assets
 docs/walkthrough.md
-presentation/
+presentation/*
+!presentation/coffee-vending-demand.pptx
 
 # Scratch / transient
 tmp/

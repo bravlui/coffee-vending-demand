@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "coffee-vending-demand"
 version = "0.1.0"
-description = "Demand forecasting and customer segmentation for coffee vending operations"
+description = "Demand forecasting and replenishment policy for coffee vending operations"
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }
@@ -13,7 +13,6 @@ authors = [{ name = "Luiz Gustavo Bravo", email = "luizgustavobravo@gmail.com" }
 dependencies = [
     "pandas>=2.1",
     "numpy>=1.26",
-    "scikit-learn>=1.4",
     "lightgbm>=4.3",
     "holidays>=0.45",
     "pyyaml>=6.0",

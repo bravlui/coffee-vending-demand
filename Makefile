@@ -22,7 +22,7 @@ format: ## Auto-fix formatting and lint issues
 test: ## Run the test suite with coverage
 	pytest
 
-run: ## Run the full pipeline (prepare -> forecast -> segment)
+run: ## Run the full pipeline (prepare -> forecast)
 	coffee-intel run-all
 
 report: ## Render docs/results.md to PDF (needs `pip install -e ".[docs]"` and Chrome/Edge)

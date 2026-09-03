@@ -58,28 +58,7 @@ print("by hour:\n", tx.groupby("hour").size())
 print("\nby weekday (0=Mon):\n", tx.groupby("dow").size())
 
 # %% [markdown]
-# ## 4. Customers — the repeat base drives revenue
-
-# %%
-card = tx[tx["customer_id"].notna()]
-counts = card["customer_id"].value_counts()
-print(f"unique customers: {card['customer_id'].nunique()}")
-print(
-    f"  >=2 purchases: {(counts >= 2).sum()}   >=5: {(counts >= 5).sum()}   "
-    f">=10: {(counts >= 10).sum()}"
-)
-
-onetime = set(counts[counts == 1].index)
-seg = card.assign(
-    kind=lambda d: d["customer_id"].map(lambda c: "one-time" if c in onetime else "repeat")
-)
-print("\nrevenue by customer kind:")
-print(seg.groupby("kind")["price"].agg(["sum", "size"]).round(0))
-share = seg.groupby("kind")["price"].sum()
-print(f"\nrepeat customers = {share['repeat'] / share.sum():.0%} of carded revenue")
-
-# %% [markdown]
-# ## 5. Figures (written to reports/figures/)
+# ## 4. Figures (written to reports/figures/)
 
 # %%
 figdir = Path(cfg.paths.figures_dir)
@@ -102,5 +81,3 @@ for f in (
 #    not extrapolate a slope.
 # 4. Prices move in discrete steps (repricing) and are confounded with time →
 #    no causal pricing analysis from this data.
-# 5. **Repeat customers ≈ 78% of carded revenue** → the customer layer is about
-#    protecting and growing that base.
