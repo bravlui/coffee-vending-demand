@@ -68,10 +68,12 @@ tests/                        testes unitários pytest (dados sintéticos, dispe
 docs/                         arquitetura + Architecture Decision Records + resultados
 notebooks/01_eda.py           análise exploratória (script no formato `# %%`)
 reports/                      figures/ e metrics/ (gerados) · evidence/ (snapshot versionado)
+presentation/coffee-vending-demand.pptx  apresentação executiva do case
 ```
 
 ### Documentação
 
+- [presentation/coffee-vending-demand.pptx](presentation/coffee-vending-demand.pptx) — apresentação executiva revisada
 - [docs/results.md](docs/results.md) — resultados e números consolidados
 - [docs/architecture.md](docs/architecture.md) — arquitetura de produção + diagrama
 - [docs/decisions/](docs/decisions/) — Architecture Decision Records (o "porquê")
