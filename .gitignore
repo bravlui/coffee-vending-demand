@@ -35,8 +35,9 @@ mlruns/
 # Rendered docs (generated from the .md sources)
 docs/*.pdf
 
-# Local-only working notes (kept out of version control)
+# Local-only deliverables (kept out of the code repository)
 docs/walkthrough.md
+presentation/
 
 # Scratch / transient
 tmp/
