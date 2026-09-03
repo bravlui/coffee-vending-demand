@@ -67,7 +67,6 @@ As decisões de projeto e os trade-offs estão registrados como ADRs em
 | [`src/coffee_intel/reporting/`](src/coffee_intel/reporting/) | gráficos e snapshot versionável das evidências |
 | [`tests/`](tests/) | testes organizados pelas mesmas responsabilidades do código |
 | [`docs/code-guide.md`](docs/code-guide.md) | leitura guiada do código, etapa por etapa |
-| [`presentation/coffee-vending-demand.pptx`](presentation/coffee-vending-demand.pptx) | apresentação executiva focada em previsão e reposição |
 
 ### Ordem recomendada para ler o código
 
@@ -167,8 +166,8 @@ ver [.github/workflows/ci.yml](.github/workflows/ci.yml).
 
 ## 7. Resultados (esta máquina)
 
-Relatório completo: [docs/results.md](docs/results.md). Artefatos brutos em
-[reports/evidence/](reports/evidence/) e em `reports/metrics/` após uma execução.
+Relatório completo: [docs/results.md](docs/results.md). Os artefatos brutos
+(métricas e snapshot de evidências) são gerados em `reports/` após uma execução.
 
 Resumo após o ajuste temporal de hiperparâmetros: o LightGBM ajustado vence o
 holdout intocado de duas janelas (WAPE de ciclo 0,168 vs. 0,202), mas nas seis

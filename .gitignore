@@ -25,9 +25,8 @@ data/processed/*
 # Model / run artifacts
 reports/figures/*
 reports/metrics/*
+reports/evidence/*
 !reports/**/.gitkeep
-!reports/evidence/
-!reports/evidence/**
 models/*.txt
 models/*.pkl
 mlruns/
@@ -35,10 +34,10 @@ mlruns/
 # Rendered docs (generated from the .md sources)
 docs/*.pdf
 
-# Local-only notes and generated presentation assets
+# Local-only notes, exploratory scripts and generated presentation assets
 docs/walkthrough.md
-presentation/*
-!presentation/coffee-vending-demand.pptx
+notebooks/
+presentation/
 
 # Scratch / transient
 tmp/
